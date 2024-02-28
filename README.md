@@ -1,5 +1,3 @@
-# Airbnb React
+# Facebook Mockup
 
-- Jesus
-- Ross
-- Jonathan
+Done with React and Tailwind
