@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import LeftMenu from './LeftMenu'
 
 function Facebook() {
-  const rating = 2
-  const cards = [...new Array(rating)]
+  const numberOfCards = 2
+  const cards = [...new Array(numberOfCards)]
   return (
     <>
       <div className="container mx-auto p-4">
@@ -44,8 +44,8 @@ function TopNav() {
   )
 }
 
-function User(props) {
-  console.log(props)
+function User({ props }) {
+  console.log(props.username)
   const { username, age, isLoggedIn } = props
 
   if (isLoggedIn) {
