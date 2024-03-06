@@ -10,7 +10,7 @@ function Facebook() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState(searchQuery)
-  const [columns, setColumns] = useState(6)
+  const [columns, setColumns] = useState(4)
 
   const getData = async () => {
     try {
