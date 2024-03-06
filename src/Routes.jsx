@@ -14,6 +14,7 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Facebook />} />
+        <Route path="/search/:searchQuery" element={<Facebook />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

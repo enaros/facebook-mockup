@@ -1,20 +1,73 @@
-import { Link } from 'react-router-dom'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faCoffee, faPen } from '@fortawesome/free-solid-svg-icons'
+import { Link, useParams } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import LeftMenu from './LeftMenu'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 function Facebook() {
-  const numberOfCards = 2
-  const cards = [...new Array(numberOfCards)]
+  const { searchQuery } = useParams()
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState(searchQuery)
+  const [columns, setColumns] = useState(6)
+
+  const getData = async () => {
+    try {
+      setLoading(true)
+      const response = await axios.get(
+        'https://dummyjson.com/products' + (search ? '/search?q=' + search : '')
+      )
+      console.log(response)
+      setProducts(response.data.products)
+      setLoading(false)
+    } catch (err) {
+      setProducts([])
+      setLoading(false)
+      alert('error fetching')
+    }
+  }
+
+  useEffect(() => {
+    getData()
+  }, [search])
+
+  let columnsTailwind =
+    columns === 6
+      ? 'md:grid-cols-6'
+      : columns === 5
+        ? 'md:grid-cols-5'
+        : 'md:grid-cols-4'
+
   return (
     <>
       <div className="container mx-auto p-4">
-        <TopNav />
-        <div className="grid md:grid-cols-3 gap-4 sm:grid-cols-1">
-          <LeftMenu />
-          {cards.map((card, index) => (
+        <TopNav setColumns={setColumns} />
+        <div className="flex justify-center pt-0 pb-4 gap-4 items-center">
+          <div className="w-20"></div>
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={(e) => setSearch(e.target.value)}
+            className="p-2 rounded w-96 border-blue-500 border-2"
+          />
+          <div className="w-20">
+            {loading && (
+              <FontAwesomeIcon
+                icon={faSpinner}
+                className="text-md animate-spin"
+              />
+            )}
+          </div>
+        </div>
+        {products.length === 0 && !loading && (
+          <div className="flex justify-center">no results</div>
+        )}
+        <div className={`grid ${columnsTailwind} gap-4 sm:grid-cols-2`}>
+          {/* <LeftMenu /> */}
+          {products.map((product, index) => (
             <div key={index}>
-              <Card />
+              <Card product={product} />
             </div>
           ))}
         </div>
@@ -28,30 +81,65 @@ function Facebook() {
 
 export default Facebook
 
-function TopNav() {
-  // Data
-  const username = 'Emiliano'
-  const age = 39
+function Card(props) {
+  const product = props.product
 
   return (
+    <div className="border border-gray-300 p-4 rounded-md shadow-md relative">
+      <div className="absolute bg-white p-2 right-0 rounded-bl-lg font-bold">
+        ${product.price}
+      </div>
+      <div>
+        <img src={product.thumbnail} alt="kitten" className="w-full" />
+      </div>
+      <div className="p-4 bg-slate-100 mt-4 rounded-md space-y-2">
+        <div className="font-bold">{product.brand}</div>
+        <div>{product.description}</div>
+      </div>
+    </div>
+  )
+}
+
+function TopNav(props) {
+  return (
     <div className="flex bg-blue-600 px-3 py-2 rounded-md mb-4 justify-between items-center text-white">
-      <div className="w-8 h-8 border-4 border-solid border-white rounded-full">
-        <FacebookLogo />
+      <div className="w-36">
+        <div className="w-8 h-8 border-4 border-solid border-white rounded-full">
+          <FacebookLogo />
+        </div>
       </div>
       <MiddleMenu />
-      <User username={username} age={age} isLoggedIn={true} />
+      <div className="flex gap-2 w-36">
+        <button
+          onClick={() => props.setColumns(6)}
+          className="opacity-80 py-1 rounded px-4 bg-white text-black"
+        >
+          6
+        </button>
+        <button
+          onClick={() => props.setColumns(5)}
+          className="opacity-80 py-1 rounded px-4 bg-white text-black"
+        >
+          5
+        </button>
+        <button
+          onClick={() => props.setColumns(4)}
+          className="opacity-80 py-1 rounded px-4 bg-white text-black"
+        >
+          4
+        </button>
+      </div>
     </div>
   )
 }
 
 function User({ props }) {
-  console.log(props.username)
-  const { username, age, isLoggedIn } = props
-
+  const isLoggedIn = true
+  const username = 'Emiliano'
   if (isLoggedIn) {
     return (
       <div className="flex items-center gap-3">
-        {username}
+        {/* {username} */}
         <div className="w-8 h-8 rounded-full bg-white overflow-hidden border-0 border-solid border-white">
           <img
             src="https://avatars.githubusercontent.com/u/4212467?v=4"
@@ -73,37 +161,18 @@ function User({ props }) {
 
 function MiddleMenu() {
   const items = [
-    { title: 'Casa', link: '/case' },
-    { title: 'Notifications', link: '/notifications' },
-    { title: 'Messages', link: '/messages' }
+    { title: 'Home', link: '/' },
+    { title: 'Notifications', link: '/' },
+    { title: 'Messages', link: '/' }
   ]
 
   return (
     <div className="flex gap-10 text-white cursor-pointer">
       {items.map((item) => (
-        <Link to={item.link}>{item.title}</Link>
+        <Link to={item.link} key={item.title}>
+          {item.title}
+        </Link>
       ))}
-    </div>
-  )
-}
-
-function Card() {
-  return (
-    <div
-      role="status"
-      className="border border-gray-300 p-4 rounded-md shadow-md"
-    >
-      <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded mb-4">
-        {/* <img src="https://placekitten.com/200/200" alt="kitten" /> */}
-      </div>
-      <div>
-        <div className="h-3 bg-gray-200 rounded-full max-w-[70%] mb-4"></div>
-        <div className="h-3 bg-gray-200 rounded-full max-w-[80%] mb-2.5"></div>
-        <div className="h-3 bg-gray-200 rounded-full mb-2.5"></div>
-        <div className="h-3 bg-gray-200 rounded-full max-w-[440px] mb-2.5"></div>
-        <div className="h-3 bg-gray-200 rounded-full max-w-[460px] mb-2.5"></div>
-        <div className="h-3 bg-gray-200 rounded-full max-w-[360px]"></div>
-      </div>
     </div>
   )
 }
@@ -120,14 +189,3 @@ function FacebookLogo() {
 }
 
 export { FacebookLogo }
-
-{
-  /* <div>
-            <FontAwesomeIcon icon={faCoffee} />
-            <p>
-              Content here{' '}
-              <FontAwesomeIcon icon={faPen} className="text-blue-500" /> more
-              content here...
-            </p>
-          </div> */
-}
