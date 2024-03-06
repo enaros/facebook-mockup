@@ -45,13 +45,11 @@ function TopNav() {
 }
 
 function User({ props }) {
-  console.log(props.username)
-  const { username, age, isLoggedIn } = props
+  const isLoggedIn = true
 
   if (isLoggedIn) {
     return (
       <div className="flex items-center gap-3">
-        {username}
         <div className="w-8 h-8 rounded-full bg-white overflow-hidden border-0 border-solid border-white">
           <img
             src="https://avatars.githubusercontent.com/u/4212467?v=4"
@@ -81,7 +79,9 @@ function MiddleMenu() {
   return (
     <div className="flex gap-10 text-white cursor-pointer">
       {items.map((item) => (
-        <Link to={item.link}>{item.title}</Link>
+        <Link key={item.title} to={item.link}>
+          {item.title}
+        </Link>
       ))}
     </div>
   )
