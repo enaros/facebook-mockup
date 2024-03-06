@@ -108,7 +108,7 @@ function TopNav(props) {
           <FacebookLogo />
         </div>
       </div>
-      <MiddleMenu />
+      <strong>Marketplace</strong>
       <div className="flex gap-2 w-36">
         <button
           onClick={() => props.setColumns(6)}
