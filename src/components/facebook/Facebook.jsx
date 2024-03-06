@@ -42,12 +42,13 @@ function Facebook() {
   return (
     <>
       <div className="container mx-auto p-4">
-        <TopNav setColumns={setColumns} />
+        <TopNav setColumns={setColumns} columns={columns} />
         <div className="flex justify-center pt-0 pb-4 gap-4 items-center">
           <div className="w-20"></div>
           <input
             type="text"
             placeholder="Search"
+            defaultValue={search}
             onChange={(e) => setSearch(e.target.value)}
             className="p-2 rounded w-96 border-blue-500 border-2"
           />
@@ -101,6 +102,7 @@ function Card(props) {
 }
 
 function TopNav(props) {
+  const { columns } = props
   return (
     <div className="flex bg-blue-600 px-3 py-2 rounded-md mb-4 justify-between items-center text-white">
       <div className="w-36">
@@ -112,19 +114,28 @@ function TopNav(props) {
       <div className="flex gap-2 w-36">
         <button
           onClick={() => props.setColumns(6)}
-          className="opacity-80 py-1 rounded px-4 bg-white text-black"
+          className={
+            'opacity-80 py-1 rounded px-4 bg-white text-black' +
+            (columns === 6 ? ' bg-black text-white' : '')
+          }
         >
           6
         </button>
         <button
           onClick={() => props.setColumns(5)}
-          className="opacity-80 py-1 rounded px-4 bg-white text-black"
+          className={
+            'opacity-80 py-1 rounded px-4 bg-white text-black' +
+            (columns === 5 ? ' bg-black text-white' : '')
+          }
         >
           5
         </button>
         <button
           onClick={() => props.setColumns(4)}
-          className="opacity-80 py-1 rounded px-4 bg-white text-black"
+          className={
+            'opacity-80 py-1 rounded px-4 bg-white text-black' +
+            (columns === 4 ? ' bg-black text-white' : '')
+          }
         >
           4
         </button>
