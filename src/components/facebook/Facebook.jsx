@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee, faSpinner } from '@fortawesome/free-solid-svg-icons'
-import LeftMenu from './LeftMenu'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+// import LeftMenu from './LeftMenu'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
@@ -105,13 +105,13 @@ function TopNav(props) {
   const { columns } = props
   return (
     <div className="flex bg-blue-600 px-3 py-2 rounded-md mb-4 justify-between items-center text-white">
-      <div className="w-36">
+      <div className="w-48">
         <div className="w-8 h-8 border-4 border-solid border-white rounded-full">
           <FacebookLogo />
         </div>
       </div>
       <strong>Marketplace</strong>
-      <div className="flex gap-2 w-36">
+      <div className="flex gap-2 w-48">
         <button
           onClick={() => props.setColumns(6)}
           className={
@@ -139,17 +139,18 @@ function TopNav(props) {
         >
           4
         </button>
+        <User />
       </div>
     </div>
   )
 }
 
-function User({ props }) {
+function User() {
   const isLoggedIn = true
-  const username = 'Emiliano'
+  // const username = 'Emiliano'
   if (isLoggedIn) {
     return (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 ml-2">
         {/* {username} */}
         <div className="w-8 h-8 rounded-full bg-white overflow-hidden border-0 border-solid border-white">
           <img
@@ -170,23 +171,23 @@ function User({ props }) {
   }
 }
 
-function MiddleMenu() {
-  const items = [
-    { title: 'Home', link: '/' },
-    { title: 'Notifications', link: '/' },
-    { title: 'Messages', link: '/' }
-  ]
+// function MiddleMenu() {
+//   const items = [
+//     { title: 'Home', link: '/' },
+//     { title: 'Notifications', link: '/' },
+//     { title: 'Messages', link: '/' }
+//   ]
 
-  return (
-    <div className="flex gap-10 text-white cursor-pointer">
-      {items.map((item) => (
-        <Link to={item.link} key={item.title}>
-          {item.title}
-        </Link>
-      ))}
-    </div>
-  )
-}
+//   return (
+//     <div className="flex gap-10 text-white cursor-pointer">
+//       {items.map((item) => (
+//         <Link to={item.link} key={item.title}>
+//           {item.title}
+//         </Link>
+//       ))}
+//     </div>
+//   )
+// }
 
 function FacebookLogo() {
   return (
