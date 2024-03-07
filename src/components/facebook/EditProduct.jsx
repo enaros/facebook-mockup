@@ -5,7 +5,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-function Facebook() {
+function EditProduct() {
   const { searchQuery } = useParams()
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
@@ -80,7 +80,7 @@ function Facebook() {
   )
 }
 
-export default Facebook
+export default EditProduct
 
 function Card(props) {
   const product = props.product
@@ -111,8 +111,8 @@ function TopNav(props) {
         </div>
       </div>
       <strong>Marketplace</strong>
-      <div className="flex gap-2 -w-48 items-center">
-        {/* <button
+      <div className="flex gap-2 w-48">
+        <button
           onClick={() => props.setColumns(6)}
           className={
             'opacity-80 py-1 rounded px-4 bg-white text-black' +
@@ -138,7 +138,7 @@ function TopNav(props) {
           }
         >
           4
-        </button> */}
+        </button>
         <User />
       </div>
     </div>
@@ -146,7 +146,7 @@ function TopNav(props) {
 }
 
 function User() {
-  const isLoggedIn = false
+  const isLoggedIn = true
   // const username = 'Emiliano'
   if (isLoggedIn) {
     return (
@@ -162,9 +162,9 @@ function User() {
     )
   } else {
     return (
-      <div className="flex gap-3">
+      <div className="flex gap-1">
         <Link to="/login">Login</Link>
-        <div> &middot; </div>
+        <div> | </div>
         <Link to="/register">Sign Up</Link>
       </div>
     )
